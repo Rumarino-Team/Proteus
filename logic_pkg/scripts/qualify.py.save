@@ -1,0 +1,55 @@
+#!/usr/bin/env python
+
+import rospy
+from sys import argv
+import actionlib
+import threading
+import time
+from DataObjects.Gate import Gate
+from AbstractMissionNode import AbstractMissionNode
+import common_pkg.msg as MSG
+
+desired_depth = 3
+name = "Qualify"
+
+class QualifyMission(AbstractMissionNode):
+    
+    
+
+    def __init__(self, argv):
+        super(QualifyMission, self).__init__(name, argv)
+
+
+    def _runMission(self):
+        print("Selecting Vision Mission: " + name)
+        print("Turning on controllers")
+        self.turn_on_depth_controllers(True, False)
+        self.go_to_depth(desired_depth)
+        while((not self.get_depth() > desired_depth*1.1) and (not self.get_depth() < desired_depth*0.9):
+            print("Looping to turn on depth controller")
+            self.turn_on_depth_controllers(True, False)
+            self.go_to_depth(desired_depth)             
+        self.wait_for_IMU()
+        self.turn_on_align_controllers(True, False)
+        self.pitch_degrees(1000)
+        self.move(30, 5)
+        time.sleep(2)
+        self.move(30, 5)
+        self._result.missioncode = 0
+        self.turn_on_controllers(False,False,False)
+        print("Mission complete, returning...")
+
+    def move(self, intensity, interval):
+        print("moving...")
+        self.forwards(True, intensity)
+        time.sleep(interval)
+        self.forwards(False, 0)
+
+
+if __name__ == "__main__":
+    try:
+        argv = rospy.myargv(argv)
+        mission = QualifyMission(argv)
+        rospy.spin()
+    except rospy.ROSInterruptException:
+        pass

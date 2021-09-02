@@ -1,0 +1,15 @@
+<launch>
+	<machine
+		name="rumarino-desktop"
+		address="192.168.0.3"
+		user="rumarino"
+		password="rumarino"
+		timeout="20"
+		env-loader="/home/rumarino/rumarino_ws/devel/remote_env_loader.sh"
+	/>
+	<node name="turtle_joy" pkg="joy" type="joy_node" respawn="true" machine="rumarino-desktop">		
+		<param name="dev" type="string" value="/dev/input/js0" />
+	</node>
+	<node name="joytestremote" pkg="controller_pkg" type="joytestremote.py" respawn="true" machine="rumarino-desktop" output="screen" args=""/>
+	<node name="joytest" pkg="controller_pkg" type="joytest.py" respawn="false" required="true" output="screen" args=""/>
+</launch>

@@ -1,0 +1,7 @@
+<launch>
+
+  <node name="ArduinoNode" pkg="rosserial_python" type="serial_node.py" required="true" args="/dev/ttyACM0"/>
+  <node name="TestSctriptNode" pkg="test_pkg" type="Motor_Test.py" required="true"/>
+  
+
+</launch>

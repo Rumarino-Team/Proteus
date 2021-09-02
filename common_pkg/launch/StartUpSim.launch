@@ -1,0 +1,18 @@
+<launch>
+  <param name ="/sim_mode" type="bool" value="true" />  
+  <!-- node name="AlignControlNode" pkg="controller_pkg" type="align_controller.py" required="true"/ -->
+  <!-- node name="DepthControlNode" pkg="controller_pkg" type="depth_controller.py" required="true"/ -->
+
+  <!-- node name="VisionServerNode" pkg="vision_pkg" type="visionNode.py" required="true"  output="screen"/-->
+  <!-- node name="DiceServerNode" pkg="logic_pkg" type="diceNode.py"  respawn="true"  output="screen" args=""/-->
+  <!-- node name="GateServerNode" pkg="logic_pkg" type="gateNode.py"  respawn="true"  output="screen" args=""/-->
+  <!-- node name="PathServerNode" pkg="logic_pkg" type="pathNode.py"  respawn="true"  output="screen" args=""/-->
+  <node name="QualifyServerNode" pkg="logic_pkg" type="qualify.py"  respawn="false" required="true" output="screen" args=""/>
+  <node name="CommanderNode"  pkg="logic_pkg" type="commander.py" required="true" output="screen" args="Qualify"/>
+
+  <!--
+                    HERE GOES JETSON TX1
+  <machine name="jetson-tx1" address="TBD" env-loader="" user="" password=""/> -->
+
+ 
+</launch>

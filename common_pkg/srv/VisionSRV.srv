@@ -1,0 +1,6 @@
+int32 mission
+int32 camera
+int32 timer
+---
+int32 out
+int32 out2
